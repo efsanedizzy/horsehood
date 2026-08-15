@@ -13,7 +13,13 @@ const ticketUsername = document.querySelector("#ticketUsername");
 const ticketWallet = document.querySelector("#ticketWallet");
 const ticketStatus = document.querySelector("#ticketStatus");
 const downloadPassButton = document.querySelector("#downloadPassButton");
+const passModal = document.querySelector("#passModal");
+const passPreviewImage = document.querySelector("#passPreviewImage");
+const closePassModal = document.querySelector("#closePassModal");
+const modalDownloadPass = document.querySelector("#modalDownloadPass");
+const modalShareButton = document.querySelector("#modalShareButton");
 let currentStep = 1;
+let lastApplication = null;
 
 function createStars() {
   const container = document.querySelector(".pixel-stars");
@@ -44,58 +50,67 @@ function goToStep(step) { currentStep = step; steps.forEach((item) => { const ac
 function nextStep() { if (currentStep === 1 && !validateUsername()) return; if (currentStep === 2 && !validateMissions()) return; goToStep(currentStep + 1); }
 function shortAddress(address) { return `${address.slice(0, 6)}…${address.slice(-4)}`; }
 function randomId() { return `PH-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`; }
-function renderSuccess(data) { document.querySelector("#summaryUsername").textContent = `@${data.username}`; document.querySelector("#summaryNetwork").textContent = data.network; document.querySelector("#summaryWallet").textContent = shortAddress(data.wallet); document.querySelector("#summaryId").textContent = data.id; document.querySelector("#shareButton").href = `https://x.com/intent/tweet?text=${encodeURIComponent("I just applied for the Horsehood NFT whitelist. The race is on! 🏇")}`; goToStep(4); }
+function renderSuccess(data) { lastApplication = data; document.querySelector("#summaryUsername").textContent = `@${data.username}`; document.querySelector("#summaryNetwork").textContent = data.network; document.querySelector("#summaryWallet").textContent = shortAddress(data.wallet); document.querySelector("#summaryId").textContent = data.id; const shareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent("I just applied for the Horsehood NFT whitelist. The race is on! 🏇")}`; document.querySelector("#shareButton").href = shareUrl; modalShareButton.href = shareUrl; goToStep(4); showPassModal(data); }
+function fitCanvasText(context, text, x, y, maxWidth, startSize, minSize = 18) { let size = startSize; context.font = `900 ${size}px system-ui, sans-serif`; while (context.measureText(text).width > maxWidth && size > minSize) { size -= 1; context.font = `900 ${size}px system-ui, sans-serif`; } context.fillText(text, x, y); }
 function drawRacePass(data) {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
-  const width = 1200;
-  const height = 675;
+  const width = 1080;
+  const height = 1350;
   canvas.width = width;
   canvas.height = height;
 
   context.fillStyle = "#071a21";
   context.fillRect(0, 0, width, height);
   context.fillStyle = "#c7ff00";
-  context.fillRect(42, 42, width - 84, height - 84);
+  context.fillRect(45, 45, width - 90, height - 90);
   context.strokeStyle = "#f7fbeb";
   context.lineWidth = 6;
-  context.strokeRect(64, 64, width - 128, height - 128);
+  context.strokeRect(70, 70, width - 140, height - 140);
   context.fillStyle = "#071a21";
-  context.fillRect(80, 80, 360, height - 160);
+  context.fillRect(92, 92, 330, height - 184);
   context.fillStyle = "#c7ff00";
-  context.font = "900 30px system-ui, sans-serif";
-  context.fillText("HORSEHOOD", 116, 132);
-  context.font = "900 20px system-ui, sans-serif";
-  context.fillText("RACE PASS • WHITELIST ENTRY 2026", 116, 171);
-  context.font = "100px system-ui, sans-serif";
-  context.fillText("♞", 116, 305);
-  context.font = "900 45px system-ui, sans-serif";
-  context.fillText("STARTING GATE", 116, 382);
-  context.fillText("ACCESS", 116, 432);
+  context.font = "900 38px system-ui, sans-serif";
+  context.fillText("HORSEHOOD", 125, 154);
+  context.font = "900 18px system-ui, sans-serif";
+  context.fillText("RACE PASS", 125, 190);
+  context.font = "900 16px system-ui, sans-serif";
+  context.fillText("WHITELIST ENTRY • 2026", 125, 220);
+  context.font = "108px system-ui, sans-serif";
+  context.fillText("♞", 125, 408);
+  context.font = "900 35px system-ui, sans-serif";
+  context.fillText("STARTING", 125, 540);
+  context.fillText("GATE", 125, 585);
+  context.fillText("ACCESS", 125, 630);
   context.fillStyle = "#071a21";
-  context.font = "900 28px system-ui, sans-serif";
-  context.fillText("RIDER", 505, 175);
-  context.font = "900 42px system-ui, sans-serif";
-  context.fillText(`@${data.username}`, 505, 223);
-  context.font = "900 28px system-ui, sans-serif";
-  context.fillText("STABLE", 505, 310);
-  context.font = "900 42px system-ui, sans-serif";
-  context.fillText("ETHEREUM / EVM", 505, 358);
-  context.font = "900 28px system-ui, sans-serif";
-  context.fillText("WALLET", 505, 445);
-  context.font = "900 36px system-ui, sans-serif";
-  context.fillText(shortAddress(data.wallet), 505, 493);
+  context.font = "900 26px system-ui, sans-serif";
+  context.fillText("RIDER", 475, 210);
+  fitCanvasText(context, `@${data.username}`, 475, 270, 500, 48, 26);
+  context.font = "900 26px system-ui, sans-serif";
+  context.fillText("STABLE", 475, 405);
+  context.font = "900 41px system-ui, sans-serif";
+  context.fillText("ETHEREUM / EVM", 475, 465);
+  context.font = "900 26px system-ui, sans-serif";
+  context.fillText("WALLET", 475, 600);
+  context.font = "900 39px system-ui, sans-serif";
+  context.fillText(shortAddress(data.wallet), 475, 660);
   context.fillStyle = "#386001";
-  context.fillRect(505, 543, 545, 3);
+  context.fillRect(475, 762, 505, 3);
   context.fillStyle = "#071a21";
-  context.font = "900 25px system-ui, sans-serif";
-  context.fillText("ENTRY ACCEPTED", 505, 590);
+  context.font = "900 34px system-ui, sans-serif";
+  context.fillText("ENTRY ACCEPTED", 475, 825);
   context.font = "700 18px system-ui, sans-serif";
-  context.fillText(`PASS ID: ${data.id}`, 505, 622);
+  context.fillText("KEEP THIS PASS FOR THE RACE.", 475, 865);
+  context.font = "700 16px system-ui, sans-serif";
+  context.fillText(`PASS ID: ${data.id}`, 475, 915);
+  context.fillStyle = "#071a21";
+  for (let x = 475; x < 890; x += 14) { for (let y = 1020; y < 1160; y += 14) { if ((x + y) % 28 === 0) context.fillRect(x, y, 9, 9); } }
   return canvas;
 }
+function showPassModal(data) { passPreviewImage.src = drawRacePass(data).toDataURL("image/png"); passModal.hidden = false; document.body.style.overflow = "hidden"; closePassModal.focus(); }
+function hidePassModal() { passModal.hidden = true; document.body.style.overflow = ""; }
 function downloadRacePass() {
-  const data = { username: xUsername.value.trim().replace(/^@+/, "") || ticketUsername.textContent.replace(/^@/, ""), wallet: walletAddress.value.trim() || "0x0000000000000000000000000000000000000000", id: document.querySelector("#summaryId").textContent || "HORSEHOOD" };
+  const data = lastApplication || { username: xUsername.value.trim().replace(/^@+/, "") || ticketUsername.textContent.replace(/^@/, ""), wallet: walletAddress.value.trim() || "0x0000000000000000000000000000000000000000", id: document.querySelector("#summaryId").textContent || "HORSEHOOD" };
   const link = document.createElement("a");
   link.href = drawRacePass(data).toDataURL("image/png");
   link.download = `horsehood-race-pass-${data.username.toLowerCase().replace(/[^a-z0-9_]/g, "") || "rider"}.png`;
@@ -151,6 +166,10 @@ form.addEventListener("keydown", (event) => { if (event.key === "Enter") event.p
 form.addEventListener("click", (event) => { const action = event.target.closest("[data-action]")?.dataset.action; if (action === "next") nextStep(); if (action === "back") goToStep(currentStep - 1); });
 document.querySelector("#submitButton").addEventListener("click", submitApplication);
 downloadPassButton.addEventListener("click", downloadRacePass);
+modalDownloadPass.addEventListener("click", downloadRacePass);
+closePassModal.addEventListener("click", hidePassModal);
+passModal.addEventListener("click", (event) => { if (event.target === passModal) hidePassModal(); });
+document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !passModal.hidden) hidePassModal(); });
 xUsername.addEventListener("input", () => { if (xUsername.value) validateUsername(); updateRacePass(); }); walletAddress.addEventListener("input", () => { if (walletAddress.value) validateWallet(); updateRacePass(); });
 document.querySelector("#resetDemo").addEventListener("click", resetDemo);
 document.querySelector("#heroHorseImage").addEventListener("error", (event) => { event.currentTarget.hidden = true; event.currentTarget.nextElementSibling.hidden = false; });
