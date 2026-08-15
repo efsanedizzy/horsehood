@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Horsehood NFT whitelist application.">
+  <title>Horsehood — Whitelist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="pixel-stars" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Horsehood home"><img class="brand-logo" src="assets/pixel-horses-logo.png" alt=""><span>HORSEHOOD</span></a>
+    <nav aria-label="Primary navigation">
+      <a href="#home">Home</a><a href="#collection">Collection</a><a href="#whitelist">Whitelist</a><a href="#roadmap">Roadmap</a>
+      <a href="https://x.com/horsehoodnft" target="_blank" rel="noopener noreferrer">X ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">HORSEHOOD NFT • SEASON 01</p>
+        <h1>RACE FOR YOUR<br><em>WHITELIST SPOT</em></h1>
+        <p class="hero-text">Complete the missions, submit your wallet and secure your place at the starting gate.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#whitelist">Join Whitelist <span>→</span></a><a class="button button-ghost" href="https://x.com/horsehoodnft" target="_blank" rel="noopener noreferrer">View on X ↗</a></div>
+      </div>
+      <div class="horse-stage" aria-label="Pixel horse artwork area">
+        <div class="stage-grid"></div>
+        <img id="heroHorseImage" src="assets/pixel-horses-logo.png" alt="Horsehood pixel horse logo">
+        <div class="horse-placeholder" hidden><span>♞</span><strong>YOUR PIXEL<br>HORSE ART</strong><small>assets/hero-horse.png</small></div>
+        <div class="stage-label"><i></i> READY AT THE GATE</div>
+      </div>
+    </section>
+
+    <section class="race-strip" aria-label="Horsehood race preview">
+      <img src="assets/race-strip.png" alt="Pixel horses racing at a stadium">
+      <div class="race-strip-caption"><span>LIVE FROM THE TRACK</span><strong>THE RACE IS ON</strong></div>
+    </section>
+
+    <section class="whitelist-section" id="whitelist" aria-labelledby="whitelist-title">
+      <div class="section-heading"><p class="eyebrow">ENTRY FORM</p><h2 id="whitelist-title">CLAIM YOUR PLACE</h2><p>Four quick steps. Your application stays in this browser until a real backend is connected.</p></div>
+      <div class="form-shell">
+        <ol class="progress" aria-label="Application progress">
+          <li class="active"><span>01</span><b>X Account</b></li><li><span>02</span><b>Missions</b></li><li><span>03</span><b>Wallet</b></li><li><span>04</span><b>Complete</b></li>
+        </ol>
+        <form id="whitelistForm" novalidate>
+          <section class="form-step active" data-step="1" aria-labelledby="step-one-title">
+            <p class="step-number">STEP 01</p><h3 id="step-one-title">X ACCOUNT</h3><p class="step-intro">Tell us where to find you at the track.</p>
+            <div class="field"><label for="xUsername">X Username</label><div class="input-wrap"><span aria-hidden="true">@</span><input id="xUsername" name="xUsername" type="text" maxlength="16" autocomplete="off" placeholder="@username" aria-describedby="xUsernameError"><i class="valid-icon" aria-hidden="true">✓</i></div><p class="error" id="xUsernameError" aria-live="polite"></p></div>
+            <div class="form-actions end"><button class="button button-primary" type="button" data-action="next">Continue <span>→</span></button></div>
+          </section>
+
+          <section class="form-step" data-step="2" aria-labelledby="step-two-title" hidden>
+            <p class="step-number">STEP 02</p><h3 id="step-two-title">MISSIONS</h3><p class="step-intro">Complete both missions, then confirm them below.</p>
+            <div class="mission-list">
+              <article class="mission-card"><div class="mission-icon">01</div><div><h4>Follow Us on X</h4><p>Follow our official X account.</p><a class="text-link" href="https://x.com/horsehoodnft" target="_blank" rel="noopener noreferrer">Follow ↗</a></div><label class="check-row"><input type="checkbox" id="missionFollow"><span></span>I have completed this mission.</label></article>
+              <article class="mission-card"><div class="mission-icon">02</div><div><h4>Like &amp; Repost</h4><p>Like and repost the official whitelist announcement.</p><a class="text-link" href="https://x.com/horsehoodnft" target="_blank" rel="noopener noreferrer">View Post ↗</a></div><label class="check-row"><input type="checkbox" id="missionPost"><span></span>I have completed this mission.</label></article>
+            </div><p class="error" id="missionsError" aria-live="polite"></p>
+            <div class="form-actions"><button class="button button-ghost" type="button" data-action="back">← Back</button><button class="button button-primary" type="button" data-action="next">Continue <span>→</span></button></div>
+          </section>
+
+          <section class="form-step" data-step="3" aria-labelledby="step-three-title" hidden>
+            <p class="step-number">STEP 03</p><h3 id="step-three-title">YOUR WALLET</h3><p class="step-intro">Choose your network and enter the wallet you own.</p>
+            <div class="network-fixed" aria-label="Selected network"><span>Network</span><strong>Ethereum / EVM</strong></div>
+            <div class="field"><label for="walletAddress">Wallet Address</label><div class="input-wrap"><input id="walletAddress" name="walletAddress" type="text" autocomplete="off" spellcheck="false" placeholder="Enter your wallet address" aria-describedby="walletError"><i class="valid-icon" aria-hidden="true">✓</i></div><p class="error" id="walletError" aria-live="polite"></p></div>
+            <label class="check-row confirmation"><input type="checkbox" id="walletConfirm"><span></span>I confirm that this wallet address belongs to me.</label><p class="error" id="confirmError" aria-live="polite"></p>
+            <div class="form-actions"><button class="button button-ghost" type="button" data-action="back">← Back</button><button class="button button-primary" id="submitButton" type="button">Submit Application <span>→</span></button></div>
+          </section>
+
+          <section class="form-step success" data-step="4" aria-labelledby="success-title" hidden>
+            <div class="success-badge">✓</div><p class="step-number">APPLICATION RECEIVED</p><h3 id="success-title">YOU’RE ON THE LIST!</h3><p class="step-intro">Your whitelist application has been submitted successfully.</p>
+            <dl class="summary"><div><dt>X username</dt><dd id="summaryUsername"></dd></div><div><dt>Selected network</dt><dd id="summaryNetwork"></dd></div><div><dt>Wallet address</dt><dd id="summaryWallet"></dd></div><div><dt>Submission ID</dt><dd id="summaryId"></dd></div></dl>
+            <a class="button button-primary" id="shareButton" target="_blank" rel="noopener noreferrer">Share on X ↗</a>
+          </section>
+        </form>
+        <button class="reset-button" id="resetDemo" type="button">Reset Demo</button>
+      </div>
+    </section>
+
+    <section class="collection-showcase" id="collection" aria-labelledby="collection-title">
+      <div class="collection-heading"><p class="eyebrow">MEET THE HERD</p><h2 id="collection-title">THE COLLECTION</h2><p>Every Pixel Horse has its own energy, story and place in the race.</p></div>
+      <div class="nft-strip">
+        <figure class="nft-card nft-pink"><img src="assets/2394.png" alt="Pink pixel horse NFT"><figcaption><span>#2394</span><strong>Rose Runner</strong></figcaption></figure>
+        <figure class="nft-card nft-purple"><img src="assets/2321.png" alt="Purple pixel horse NFT"><figcaption><span>#2321</span><strong>Neon Runner</strong></figcaption></figure>
+        <figure class="nft-card nft-lime"><img src="assets/2344.png" alt="Dark pixel horse NFT"><figcaption><span>#2344</span><strong>Blaze Runner</strong></figcaption></figure>
+        <figure class="nft-card nft-moon"><img src="assets/2328.png" alt="Mystical forest pixel horse NFT"><figcaption><span>#2328</span><strong>Moon Runner</strong></figcaption></figure>
+      </div>
+    </section>
+
+    <section class="roadmap" id="roadmap" aria-labelledby="roadmap-title">
+      <div class="roadmap-intro"><p class="eyebrow">THE LONG RIDE</p><h2 id="roadmap-title">ROADMAP</h2><p>From the first starting gate to a community-led future, every phase is built to reward the riders who stay with us.</p></div>
+      <ol class="roadmap-list">
+        <li class="roadmap-card"><div class="roadmap-marker"><span>01</span></div><article><p class="roadmap-phase">PHASE 01</p><h3>COMMUNITY BUILDING</h3><p>Before the collection launch, we will run activities that grow our community and reward early supporters.</p><ul><li>Whitelist applications will open.</li><li>Community contests and special events will be held.</li><li>Active members can earn whitelist access.</li><li>Collection and mint details will be announced.</li></ul></article></li>
+        <li class="roadmap-card"><div class="roadmap-marker"><span>02</span></div><article><p class="roadmap-phase">PHASE 02</p><h3>NFT MINT</h3><p>A total of <strong>3,333 NFTs</strong> will be minted.</p><ul><li>3,000 NFTs are reserved for the community mint.</li><li>333 NFTs are held in the team reserve and will never be sold.</li><li>All reserve NFTs will be distributed to the community through contests, giveaways, rewards and special events.</li></ul></article></li>
+        <li class="roadmap-card"><div class="roadmap-marker"><span>03</span></div><article><p class="roadmap-phase">PHASE 03</p><h3>TOKEN LAUNCH</h3><p>The project token will launch two days after the NFT mint is complete.</p><ul><li>The official contract address will only be shared through verified project accounts.</li><li>The ecosystem will begin expanding alongside the launch.</li><li>Launch details and token economics will be shared transparently with the community.</li></ul></article></li>
+        <li class="roadmap-card"><div class="roadmap-marker"><span>04</span></div><article><p class="roadmap-phase">PHASE 04</p><h3>HOLDER AIRDROP</h3><p>NFT holders will qualify for the project's token airdrop.</p><ul><li>A snapshot will be taken of eligible holder wallets.</li><li>Token amounts and distribution criteria will be announced later.</li><li>Airdrop details will be published through official channels.</li><li>The airdrop rewards genuine holders and long-term community members.</li></ul></article></li>
+        <li class="roadmap-card"><div class="roadmap-marker"><span>05</span></div><article><p class="roadmap-phase">PHASE 05</p><h3>COMMUNITY-DRIVEN FUTURE</h3><p>After mint and token launch, the project will keep growing with the community at its center.</p><ul><li>Team-reserve NFTs will be distributed through regular events.</li><li>Holder-only contests and community activities will continue.</li><li>New partnerships and collection developments will be announced.</li><li>Community feedback will help shape future decisions.</li></ul></article></li>
+      </ol>
+    </section>
+  </main>
+  <footer><a class="brand" href="#home"><img class="brand-logo" src="assets/pixel-horses-logo.png" alt=""><span>HORSEHOOD</span></a><div><a href="https://x.com/horsehoodnft" target="_blank" rel="noopener noreferrer">X</a><a href="https://discord.com" target="_blank" rel="noopener noreferrer">Discord</a></div><p>© 2026 Horsehood. All rights reserved.</p></footer>
+  <script src="script.js"></script>
+</body>
+</html>
