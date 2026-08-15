@@ -1,6 +1,8 @@
 "use strict";
 
 const STORAGE_KEY = "pixelHorsesWhitelistApplication";
+const APPLICATION_API_URL = "https://oaejqzflynzgcdulheng.supabase.co/functions/v1/submit-whitelist";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gIMwiHfvb0x34qlXzJpcGA_6QPgTnnn";
 const form = document.querySelector("#whitelistForm");
 const steps = [...document.querySelectorAll(".form-step")];
 const progressItems = [...document.querySelectorAll(".progress li")];
@@ -38,14 +40,49 @@ function nextStep() { if (currentStep === 1 && !validateUsername()) return; if (
 function shortAddress(address) { return `${address.slice(0, 6)}…${address.slice(-4)}`; }
 function randomId() { return `PH-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`; }
 function renderSuccess(data) { document.querySelector("#summaryUsername").textContent = `@${data.username}`; document.querySelector("#summaryNetwork").textContent = data.network; document.querySelector("#summaryWallet").textContent = shortAddress(data.wallet); document.querySelector("#summaryId").textContent = data.id; document.querySelector("#shareButton").href = `https://x.com/intent/tweet?text=${encodeURIComponent("I just applied for the Horsehood NFT whitelist. The race is on! 🏇")}`; goToStep(4); }
-function submitApplication() {
+async function submitApplication() {
   if (!validateWallet() || !validateConfirmation()) return;
-  const button = document.querySelector("#submitButton"); button.disabled = true; button.innerHTML = "Submitting <span class=\"loading\">•••</span>";
-  // Future backend/API submission belongs here; this demo intentionally stores only in localStorage.
-  window.setTimeout(() => { const data = { username: xUsername.value, network: network.value, wallet: walletAddress.value.trim(), id: randomId(), submittedAt: new Date().toISOString() }; localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); button.disabled = false; renderSuccess(data); }, 650);
+  const button = document.querySelector("#submitButton");
+  const defaultButtonContent = "Submit Application <span>→</span>";
+  button.disabled = true;
+  button.innerHTML = "Submitting <span class=\"loading\">•••</span>";
+  setError("walletError", "");
+
+  try {
+    const response = await fetch(APPLICATION_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+        apikey: SUPABASE_PUBLISHABLE_KEY,
+      },
+      body: JSON.stringify({
+        username: xUsername.value,
+        wallet: walletAddress.value.trim(),
+      }),
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(result.error || "Your application could not be submitted. Please try again.");
+    }
+
+    renderSuccess({
+      username: xUsername.value,
+      network: network.value,
+      wallet: walletAddress.value.trim(),
+      id: result.id,
+    });
+  } catch (error) {
+    setError("walletError", error instanceof Error ? error.message : "Your application could not be submitted. Please try again.");
+  } finally {
+    button.disabled = false;
+    button.innerHTML = defaultButtonContent;
+  }
 }
-function restoreApplication() { try { const data = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (data?.username && data?.wallet && data?.id) renderSuccess(data); } catch { localStorage.removeItem(STORAGE_KEY); } }
-function resetDemo() { localStorage.removeItem(STORAGE_KEY); form.reset(); [xUsername, walletAddress].forEach((input) => setFieldState(input, false)); ["xUsernameError", "missionsError", "walletError", "confirmError"].forEach((id) => setError(id, "")); document.querySelector("#submitButton").innerHTML = "Submit Application <span>→</span>"; goToStep(1); }
+function restoreApplication() { localStorage.removeItem(STORAGE_KEY); }
+function resetDemo() { form.reset(); [xUsername, walletAddress].forEach((input) => setFieldState(input, false)); ["xUsernameError", "missionsError", "walletError", "confirmError"].forEach((id) => setError(id, "")); document.querySelector("#submitButton").innerHTML = "Submit Application <span>→</span>"; goToStep(1); }
 
 form.addEventListener("keydown", (event) => { if (event.key === "Enter") event.preventDefault(); });
 form.addEventListener("click", (event) => { const action = event.target.closest("[data-action]")?.dataset.action; if (action === "next") nextStep(); if (action === "back") goToStep(currentStep - 1); });
