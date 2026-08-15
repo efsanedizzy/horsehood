@@ -40,11 +40,12 @@
     </section>
 
     <section class="whitelist-section" id="whitelist" aria-labelledby="whitelist-title">
-      <div class="section-heading"><p class="eyebrow">ENTRY FORM</p><h2 id="whitelist-title">CLAIM YOUR PLACE</h2><p>Four quick steps. Your application stays in this browser until a real backend is connected.</p></div>
+      <div class="section-heading"><p class="eyebrow">ENTRY FORM</p><h2 id="whitelist-title">CLAIM YOUR PLACE</h2><p>Complete the entry card and secure your place at the starting gate.</p></div>
       <div class="form-shell">
         <ol class="progress" aria-label="Application progress">
           <li class="active"><span>01</span><b>X Account</b></li><li><span>02</span><b>Missions</b></li><li><span>03</span><b>Wallet</b></li><li><span>04</span><b>Complete</b></li>
         </ol>
+        <div class="application-layout">
         <form id="whitelistForm" novalidate>
           <section class="form-step active" data-step="1" aria-labelledby="step-one-title">
             <p class="step-number">STEP 01</p><h3 id="step-one-title">X ACCOUNT</h3><p class="step-intro">Tell us where to find you at the track.</p>
@@ -72,9 +73,22 @@
           <section class="form-step success" data-step="4" aria-labelledby="success-title" hidden>
             <div class="success-badge">✓</div><p class="step-number">APPLICATION RECEIVED</p><h3 id="success-title">YOU’RE ON THE LIST!</h3><p class="step-intro">Your whitelist application has been submitted successfully.</p>
             <dl class="summary"><div><dt>X username</dt><dd id="summaryUsername"></dd></div><div><dt>Selected network</dt><dd id="summaryNetwork"></dd></div><div><dt>Wallet address</dt><dd id="summaryWallet"></dd></div><div><dt>Submission ID</dt><dd id="summaryId"></dd></div></dl>
-            <a class="button button-primary" id="shareButton" target="_blank" rel="noopener noreferrer">Share on X ↗</a>
+            <div class="success-actions"><button class="button button-ghost" id="downloadPassButton" type="button">Download Race Pass ↓</button><a class="button button-primary" id="shareButton" target="_blank" rel="noopener noreferrer">Share Race Pass on X ↗</a></div>
           </section>
         </form>
+        <aside class="race-pass" aria-label="Live Horsehood race pass preview">
+          <div class="pass-topline"><span>HORSEHOOD</span><span>RACE PASS</span></div>
+          <div class="pass-emblem" aria-hidden="true">♞</div>
+          <p class="pass-kicker">WHITELIST ENTRY • 2026</p>
+          <h3>STARTING GATE<br>ACCESS</h3>
+          <div class="pass-details">
+            <div><span>RIDER</span><strong id="ticketUsername">AWAITING RIDER</strong></div>
+            <div><span>STABLE</span><strong>ETHEREUM / EVM</strong></div>
+            <div><span>WALLET</span><strong id="ticketWallet">AWAITING WALLET</strong></div>
+          </div>
+          <div class="pass-footer"><span class="pass-status" id="ticketStatus">ENTRY PENDING</span><span class="pass-checker" aria-hidden="true"></span></div>
+        </aside>
+        </div>
         <button class="reset-button" id="resetDemo" type="button">Clear Form</button>
       </div>
     </section>
