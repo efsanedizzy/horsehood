@@ -2,7 +2,7 @@
 
 const STORAGE_KEY = "pixelHorsesWhitelistApplication";
 const APPLICATION_API_URL = "https://oaejqzflynzgcdulheng.supabase.co/functions/v1/submit-whitelist";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gIMwiHfvb0x34qlXzJpcGA_6QPgTnnn";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hZWpxemZseW56Z2NkdWxoZW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3ODYwMTUsImV4cCI6MjEwMjM2MjAxNX0.S2_V-G9qs9JmO18YVe66I32vhWkO006e_YOb5JMsEiI";
 const form = document.querySelector("#whitelistForm");
 const steps = [...document.querySelectorAll(".form-step")];
 const progressItems = [...document.querySelectorAll(".progress li")];
